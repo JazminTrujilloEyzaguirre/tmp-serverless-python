@@ -1,0 +1,5 @@
+region: us-west-2
+LABS_ROLE_ARN: arn:aws:iam::98682736873:role/ExampleRole
+
+ARN_PREFIX: arn:aws:lambda:${self:provider.region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}
+deployment-bucket: bicevida${self:provider.stage}-eddie-serverless-deployments

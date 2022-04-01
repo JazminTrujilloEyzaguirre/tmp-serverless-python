@@ -1,0 +1,14 @@
+- Effect: Allow
+  Action:
+  - cloudwatch:*new
+  - logs:*
+  # - cloudwatch:PutMetricAlarm
+  Resource: "*"
+- Effect: Allow
+  Action:
+  - sts:AssumeRole
+  Resource: "*"
+- Effect: Allow
+  Action:
+  - lambda:InvokeFunction
+  Resource: "*"

@@ -1,0 +1,8 @@
+Resources:
+  #dynamo
+  LeadData: ${file(.cloudformation/resources/dynamo/lead_data.js)}
+  Regiones: ${file(.cloudformation/resources/dynamo/regiones.js)}
+  # execution role para poder ejecutar step functions
+  LambdaExecutionRole: ${file(.cloudformation/resources/roles/execution_role.js)}
+
+

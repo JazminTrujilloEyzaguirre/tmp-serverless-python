@@ -1,11 +1,45 @@
 service: aws-python-tmp
 
 frameworkVersion: '3'
+custom:
+  service: aws-python-tmp
+  prefix: ${self:service}-${self:provider.stage}
+  pythonRequirements:
+    dockerizePip: non-linux
+  configFile: ${file(./config.yml):${self:provider.stage}
+  busEventName: input-data
+  ARN_PREFIX: ${file(${self:provider.stage}.yml):ARN_PREFIX}
 
 provider:
   name: aws
   runtime: python3.8
+  region: ${file(${self:provider.stage}.yml):region}
+  stage: ${opt:stage, 'dev'}
+  versionFunctions: false
+  stackTags:
+    "Proyecto": "EXAMPLE"
+  deploymentBucket:
+    name: ${file(${self:provider.stage}.yml):deployment-bucket}
+
+  environment:
+    REGION_NAME_BY_STAGE: ${self:provider.region}
+    LABS_ROLE_ARN: ${file(${self:provider.stage}.yml):LABS_ROLE_ARN}
+
+  iamRoleStatements:
+    ${file(.cloudformation/iam/iam_statements.yml)}
 
 functions:
-  hello:
-    handler: handler.hello
+  ${file(.cloudformation/lambdas/functions.yml)}
+
+stepFunctions:
+  stateMachines:
+    ExampleSM:
+      ${file(.cloudformation/resources/stepfunctions/example_sm.yml)}
+
+plugins:
+  - serverless-python-requirements
+  - serverless-step-functions
+  - serverless-pseudo-parameters
+  - serverless-plugin-include-dependencies
+resources:
+  - ${file(.cloudformation/resources.yml)}

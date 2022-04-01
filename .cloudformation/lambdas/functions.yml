@@ -1,0 +1,9 @@
+payload:
+  handler: step_functions/handler_payload.handler
+
+exceptions:
+  handler: step_functions/handler_exceptions.handler
+  timeout: 900
+
+catchFallback:
+  handler: step_functions/handler_catch_fallback.handler

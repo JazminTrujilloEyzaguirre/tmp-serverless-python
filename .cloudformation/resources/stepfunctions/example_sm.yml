@@ -1,0 +1,12 @@
+name: ExampleSM
+events:
+  - eventBridge:
+      eventBusName: ${self:custom.busEventName}
+      event:
+        source:
+          - "bice.example.test"
+definition:
+  Comment: Inicio de proceso lambdas stateMachine
+  StartAt: Payload
+  States:
+    ${file(.cloudformation/resources/stepfunctions/example_sm.js)}
